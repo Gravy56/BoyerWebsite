@@ -649,9 +649,9 @@
       <!-- Warm brand overlay, fades in as video reveals -->
       <div class="reveal-bg"></div>
 
-      <!-- The video — clipped to an expanding ellipse driven by scroll -->
+      <!-- The video — frame controlled by scroll position, not autoplay -->
       <div class="reveal-subject-wrap">
-        <video class="reveal-subject" autoplay muted loop playsinline
+        <video class="reveal-subject" muted playsinline preload="auto"
                poster="https://www.boyercandies.com/cdn/shop/files/12105highresbox.jpg?v=1&width=533">
           <source src="hero-video.mp4" type="video/mp4">
         </video>
@@ -820,76 +820,85 @@
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     if (reduceMotion) {
-      // Show everything immediately — no animation
-      document.querySelector('.scroll-reveal-section').style.height = '100vh';
+      // Show everything immediately, skip to last video frame
+      const vid = document.querySelector('.reveal-subject');
+      vid.addEventListener('loadedmetadata', () => { vid.currentTime = vid.duration; });
     } else {
 
-      // ─── GSAP ScrollTrigger: Scroll-Pin Reveal ─────────────────────────────
+      // ─── GSAP ScrollTrigger: Video-Scrub + Clip-Path Reveal ────────────────
       gsap.registerPlugin(ScrollTrigger);
 
-      const tl = gsap.timeline({
-        scrollTrigger: {
+      const video = document.querySelector('.reveal-subject');
+
+      function initScrollReveal() {
+        const duration = video.duration;
+
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: '#scroll-reveal',
+            start: 'top top',
+            end: '+=300%',       // 3× viewport = plenty of scroll budget
+            pin: true,
+            scrub: true,         // no lag — frame-accurate tie to scroll position
+            anticipatePin: 1,
+            onUpdate(self) {
+              // Scrub video frame directly to scroll progress
+              video.currentTime = self.progress * duration;
+            }
+          }
+        });
+
+        // Phase 1 (0–45%): clip-path expands from cup oval to full bleed
+        tl.to('.reveal-subject-wrap', {
+          clipPath: 'ellipse(120% 130% at 50% 50%)',
+          ease: 'power2.inOut',
+          duration: 0.45
+        }, 0)
+        .to('.reveal-subject', {
+          scale: 1,
+          ease: 'power2.out',
+          duration: 0.45
+        }, 0)
+        .to('.reveal-bg', {
+          opacity: 1,
+          ease: 'none',
+          duration: 0.3
+        }, 0.05)
+        .to('.reveal-ring', {
+          opacity: 0,
+          scale: 1.4,
+          ease: 'power1.in',
+          duration: 0.2
+        }, 0.15);
+
+        // Phase 2 (65–98%): text staggers in after the explosion has played
+        tl.to('.reveal-eyebrow', {
+          opacity: 1, y: 0, ease: 'power2.out', duration: 0.14
+        }, 0.65)
+        .to('.reveal-headline', {
+          opacity: 1, y: 0, ease: 'power2.out', duration: 0.16
+        }, 0.74)
+        .to('.reveal-subline', {
+          opacity: 1, y: 0, ease: 'power2.out', duration: 0.14
+        }, 0.84)
+        .to('.reveal-ctas', {
+          opacity: 1, y: 0, ease: 'power2.out', duration: 0.12
+        }, 0.94);
+
+        // Fade out scroll hint the moment scrolling begins
+        ScrollTrigger.create({
           trigger: '#scroll-reveal',
-          start: 'top top',     // pin begins when section hits viewport top
-          end: '+=200%',        // consumes 2× viewport of scroll budget
-          pin: true,            // locks section while timeline plays
-          scrub: 1.0,           // ties animation progress smoothly to scroll
-          anticipatePin: 1,     // prevents layout jump on fast scroll
-        }
-      });
+          start: 'top top-=5',
+          onEnter: () => gsap.to('.scroll-hint', { opacity: 0, duration: 0.3 })
+        });
+      }
 
-      // Phase 1 (0–60%): clip-path expands, video zooms out into place
-      tl.to('.reveal-subject-wrap', {
-        clipPath: 'ellipse(120% 130% at 50% 50%)',
-        ease: 'power2.inOut',
-        duration: 0.6
-      }, 0)
-      .to('.reveal-subject', {
-        scale: 1,
-        ease: 'power2.out',
-        duration: 0.6
-      }, 0)
-      .to('.reveal-bg', {
-        opacity: 1,
-        ease: 'none',
-        duration: 0.4
-      }, 0.05)
-      // Gold ring fades out as clip-path expands past it
-      .to('.reveal-ring', {
-        opacity: 0,
-        scale: 1.4,
-        ease: 'power1.in',
-        duration: 0.25
-      }, 0.2);
-
-      // Phase 2 (62–98%): text staggers in
-      tl.to('.reveal-eyebrow', {
-        opacity: 1, y: 0,
-        ease: 'power2.out',
-        duration: 0.18
-      }, 0.62)
-      .to('.reveal-headline', {
-        opacity: 1, y: 0,
-        ease: 'power2.out',
-        duration: 0.2
-      }, 0.72)
-      .to('.reveal-subline', {
-        opacity: 1, y: 0,
-        ease: 'power2.out',
-        duration: 0.18
-      }, 0.84)
-      .to('.reveal-ctas', {
-        opacity: 1, y: 0,
-        ease: 'power2.out',
-        duration: 0.14
-      }, 0.94);
-
-      // Fade scroll hint once user starts scrolling
-      ScrollTrigger.create({
-        trigger: '#scroll-reveal',
-        start: 'top top-=5',
-        onEnter: () => gsap.to('.scroll-hint', { opacity: 0, duration: 0.35 })
-      });
+      // Wait for video metadata so duration is known before building the timeline
+      if (video.readyState >= 1) {
+        initScrollReveal();
+      } else {
+        video.addEventListener('loadedmetadata', initScrollReveal, { once: true });
+      }
 
     }
 
