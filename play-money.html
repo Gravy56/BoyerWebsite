@@ -155,12 +155,24 @@
     .form-submit { width: 100%; font-family: var(--sans); font-size: 0.8rem; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 500; background: var(--brown); color: var(--cream); border: 2px solid var(--brown); padding: 16px; cursor: pointer; margin-top: 8px; transition: all 0.2s; }
     .form-submit:hover { background: var(--red); border-color: var(--red); }
 
+    /* HOW TO REDEEM STEPS */
+    .redeem-steps-section { padding: 72px 80px 0; max-width: 900px; margin: 0 auto; }
+    .redeem-steps-section .section-label { font-family: var(--slab); font-style: italic; font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--red); margin-bottom: 14px; }
+    .redeem-steps-section h2 { font-family: var(--serif); font-size: clamp(1.8rem, 3vw, 2.4rem); font-weight: 400; color: var(--brown); letter-spacing: -0.02em; margin-bottom: 36px; }
+    .redeem-steps-list { counter-reset: redeem-step; display: flex; flex-direction: column; gap: 0; border: 2px solid var(--cream-dark); }
+    .redeem-step-item { counter-increment: redeem-step; display: flex; align-items: flex-start; gap: 20px; padding: 24px 28px; border-bottom: 1px solid var(--cream-dark); }
+    .redeem-step-item:last-child { border-bottom: none; }
+    .redeem-step-num { flex-shrink: 0; width: 36px; height: 36px; background: var(--brown); color: var(--cream); font-family: var(--sans); font-size: 0.78rem; font-weight: 500; display: flex; align-items: center; justify-content: center; border-radius: 50%; }
+    .redeem-step-num::before { content: counter(redeem-step); }
+    .redeem-step-body h4 { font-family: var(--slab); font-size: 0.95rem; font-weight: 600; color: var(--brown); margin-bottom: 4px; letter-spacing: 0.02em; }
+    .redeem-step-body p { font-family: var(--body); font-size: 0.88rem; color: var(--text-mid); line-height: 1.75; margin: 0; }
+
     /* FAQ */
     .faq-section { padding: 80px 80px 100px; max-width: 900px; margin: 0 auto; }
     .faq-item { border-bottom: 1px solid var(--cream-dark); }
-    .faq-question { display: flex; justify-content: space-between; align-items: center; padding: 22px 0; cursor: pointer; font-family: var(--serif); font-size: 1.05rem; font-weight: 400; color: var(--brown); user-select: none; }
+    .faq-question { display: flex; justify-content: space-between; align-items: center; padding: 22px 0; cursor: pointer; font-family: var(--serif); font-size: 1.05rem; font-weight: 400; color: var(--brown); user-select: none; background: none; border: none; width: 100%; text-align: left; }
     .faq-question svg { flex-shrink: 0; transition: transform 0.3s; color: var(--gold); }
-    .faq-question.open svg { transform: rotate(45deg); }
+    .faq-question[aria-expanded="true"] svg { transform: rotate(45deg); }
     .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.35s ease, padding 0.3s; }
     .faq-answer.open { max-height: 300px; padding-bottom: 20px; }
     .faq-answer p { font-family: var(--body); font-size: 0.95rem; color: var(--text-mid); line-height: 1.8; }
@@ -191,6 +203,7 @@
       .steps::before { display: none; }
       .redeem-section { padding: 60px 24px; }
       .redeem-inner { grid-template-columns: 1fr; }
+      .redeem-steps-section { padding: 48px 24px 0; }
       nav { padding: 0 20px; }
       .nav-links { display: none; }
       .footer-grid { grid-template-columns: 1fr 1fr; }
@@ -334,49 +347,85 @@
   </div>
 </section>
 
+<!-- HOW TO REDEEM -->
+<section class="redeem-steps-section">
+  <div class="section-label reveal">Step-by-Step</div>
+  <h2 class="reveal">How to <em style="font-style:italic;color:var(--red);">Redeem</em></h2>
+  <ol class="redeem-steps-list reveal">
+    <li class="redeem-step-item">
+      <div class="redeem-step-num"></div>
+      <div class="redeem-step-body">
+        <h4>Gather Your Play Money Cards</h4>
+        <p>Collect all the Play Money cards from your Boyer candy purchases. Count up the total face value printed on each card. The minimum redemption is $1.00 in cards.</p>
+      </div>
+    </li>
+    <li class="redeem-step-item">
+      <div class="redeem-step-num"></div>
+      <div class="redeem-step-body">
+        <h4>Fill Out the Redemption Form</h4>
+        <p>Scroll down to the Redemption Form and enter your name, mailing address, email, and total Play Money value. Submit the form to begin your request.</p>
+      </div>
+    </li>
+    <li class="redeem-step-item">
+      <div class="redeem-step-num"></div>
+      <div class="redeem-step-body">
+        <h4>Mail In Your Physical Cards (If Required)</h4>
+        <p>After we receive your form, we may ask you to mail the original physical cards to our Altoona address for verification. We'll send instructions to the email you provided.</p>
+      </div>
+    </li>
+    <li class="redeem-step-item">
+      <div class="redeem-step-num"></div>
+      <div class="redeem-step-body">
+        <h4>Receive Your Reward</h4>
+        <p>Once your cards are verified, we'll send your reward directly to your mailing address. Please allow 4–6 weeks for processing and delivery.</p>
+      </div>
+    </li>
+  </ol>
+</section>
+
 <!-- FAQ -->
 <section class="faq-section">
   <div class="section-label reveal">Common Questions</div>
   <h2 class="section-title reveal" style="font-size:2rem;">Play Money <em>FAQ</em></h2>
 
   <div class="faq-item reveal">
-    <div class="faq-question" onclick="toggleFaq(this)">
+    <button class="faq-question" onclick="toggleFaq(this)" aria-expanded="false" aria-controls="faq-answer-1">
       Where do I find the Play Money cards?
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-    </div>
-    <div class="faq-answer"><p>Play Money cards are included inside the packaging of most Boyer products — Mallo Cups, Clark Bars, Smoothie Cups, Peanut Butter Cups, and more. Each 2-pack wrapper typically contains one or more cards.</p></div>
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+    </button>
+    <div class="faq-answer" id="faq-answer-1"><p>Play Money cards are included inside the packaging of most Boyer products — Mallo Cups, Clark Bars, Smoothie Cups, Peanut Butter Cups, and more. Each 2-pack wrapper typically contains one or more cards.</p></div>
   </div>
 
   <div class="faq-item reveal">
-    <div class="faq-question" onclick="toggleFaq(this)">
+    <button class="faq-question" onclick="toggleFaq(this)" aria-expanded="false" aria-controls="faq-answer-2">
       How much Play Money do I need to redeem?
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-    </div>
-    <div class="faq-answer"><p>The minimum redemption is $1.00 in Play Money card value. There's no maximum — the more you save, the bigger the reward you can redeem for.</p></div>
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+    </button>
+    <div class="faq-answer" id="faq-answer-2"><p>The minimum redemption is $1.00 in Play Money card value. There's no maximum — the more you save, the bigger the reward you can redeem for.</p></div>
   </div>
 
   <div class="faq-item reveal">
-    <div class="faq-question" onclick="toggleFaq(this)">
+    <button class="faq-question" onclick="toggleFaq(this)" aria-expanded="false" aria-controls="faq-answer-3">
       Do the Play Money cards expire?
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-    </div>
-    <div class="faq-answer"><p>Boyer Play Money cards do not have an expiration date. Many collectors have been saving their cards for years or even decades. Older cards are still valid for redemption.</p></div>
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+    </button>
+    <div class="faq-answer" id="faq-answer-3"><p>Boyer Play Money cards do not have an expiration date. Many collectors have been saving their cards for years or even decades. Older cards are still valid for redemption.</p></div>
   </div>
 
   <div class="faq-item reveal">
-    <div class="faq-question" onclick="toggleFaq(this)">
+    <button class="faq-question" onclick="toggleFaq(this)" aria-expanded="false" aria-controls="faq-answer-4">
       What can I redeem my Play Money for?
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-    </div>
-    <div class="faq-answer"><p>Play Money can be redeemed for free Boyer candy products. The specific rewards available depend on your total accumulated value. Submit the form above and we'll confirm your redemption options.</p></div>
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+    </button>
+    <div class="faq-answer" id="faq-answer-4"><p>Play Money can be redeemed for free Boyer candy products. The specific rewards available depend on your total accumulated value. Submit the form above and we'll confirm your redemption options.</p></div>
   </div>
 
   <div class="faq-item reveal">
-    <div class="faq-question" onclick="toggleFaq(this)">
+    <button class="faq-question" onclick="toggleFaq(this)" aria-expanded="false" aria-controls="faq-answer-5">
       Do I mail in the cards or just fill out the form?
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-    </div>
-    <div class="faq-answer"><p>Submit the online form above first. After review, you may be asked to mail the physical cards to our Altoona address for verification. We'll send instructions via the email you provide.</p></div>
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+    </button>
+    <div class="faq-answer" id="faq-answer-5"><p>Submit the online form above first. After review, you may be asked to mail the physical cards to our Altoona address for verification. We'll send instructions via the email you provide.</p></div>
   </div>
 </section>
 
@@ -427,7 +476,8 @@
   document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
   function toggleFaq(el) {
-    el.classList.toggle('open');
+    const isOpen = el.getAttribute('aria-expanded') === 'true';
+    el.setAttribute('aria-expanded', String(!isOpen));
     const ans = el.nextElementSibling;
     ans.classList.toggle('open');
   }
