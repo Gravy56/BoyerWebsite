@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Boyer Candy — Handcrafted in Altoona, PA Since 1936</title>
+  <meta name="description" content="Boyer Candy Company makes America's original Mallo Cup, Clark Bar, and more. Handcrafted in Altoona, PA since 1936. Shop cups, bags, and merch.">
+  <link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Josefin+Slab:ital,wght@0,300;0,400;0,600;0,700;1,400;1,700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    /* ── Reset & Base ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --cream:      #F5EFE0;
+      --cream-dark: #EDE4CC;
+      --brown:      #2B1A0E;
+      --brown-mid:  #5C3317;
+      --choc:       #3D1F0D;
+      --gold:       #C9922A;
+      --gold-light: #E8B84B;
+      --red:        #C0392B;
+      --red-dark:   #922B21;
+      --white:      #FDFAF4;
+      --text:       #1E1008;
+      --text-mid:   #5C3317;
+      --serif:      'Alfa Slab One', serif;
+      --slab:       'Josefin Slab', serif;
+      --body:       'Libre Baskerville', serif;
+      --sans:       'DM Sans', sans-serif;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--cream);
+      color: var(--text);
+      font-family: var(--body);
+      line-height: 1.6;
+    }
+    a { text-decoration: none; color: inherit; }
+    img { display: block; max-width: 100%; }
+
+    /* ── Announcement Bar ── */
+    .announcement {
+      background: var(--brown);
+      color: var(--gold-light);
+      font-family: var(--sans);
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-align: center;
+      padding: 0.55rem 1rem;
+    }
+
+    /* ── Nav ── */
+    nav {
+      background: var(--brown);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2.5rem;
+      height: 64px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid rgba(201,146,42,0.18);
+    }
+    .nav-logo {
+      font-family: var(--serif);
+      font-size: 1.4rem;
+      color: var(--white);
+      letter-spacing: 0.01em;
+    }
+    .nav-logo span { color: var(--gold); }
+    .nav-links {
+      display: flex;
+      list-style: none;
+      gap: 2rem;
+    }
+    .nav-links a {
+      font-family: var(--sans);
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: rgba(253,250,244,0.75);
+      transition: color 0.2s;
+    }
+    .nav-links a:hover,
+    .nav-links a.active { color: var(--gold-light); }
+    .nav-cart {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      font-family: var(--sans);
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: rgba(253,250,244,0.75);
+      transition: color 0.2s;
+    }
+    .nav-cart:hover { color: var(--gold-light); }
+
+    /* ── Hero: Full-Width Video ── */
+    .hero-video {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      min-height: 560px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .hero-bg-video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      z-index: 0;
+    }
+
+    /* Warm brand overlay: deep brown vignette + gold warmth at center */
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      background:
+        radial-gradient(ellipse at center, rgba(61,31,13,0.18) 0%, rgba(43,26,14,0.72) 100%),
+        linear-gradient(to bottom, rgba(43,26,14,0.25) 0%, rgba(43,26,14,0.55) 100%);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      color: var(--white);
+      max-width: 860px;
+      padding: 2rem;
+    }
+
+    /* ── Hero Text Animations ── */
+    @keyframes eyebrow-in {
+      from { opacity: 0; letter-spacing: 0.35em; }
+      to   { opacity: 1; letter-spacing: 0.18em; }
+    }
+    @keyframes headline-in {
+      from { opacity: 0; transform: translateY(28px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes subline-in {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes cta-in {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero-eyebrow {
+      font-family: var(--slab);
+      font-style: italic;
+      font-size: 0.9rem;
+      font-weight: 400;
+      letter-spacing: 0.18em;
+      color: var(--gold-light);
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+      opacity: 0;
+      animation: eyebrow-in 0.9s cubic-bezier(0.25,0.46,0.45,0.94) 0.3s forwards;
+    }
+
+    .hero-headline {
+      font-family: var(--serif);
+      font-size: clamp(3rem, 8vw, 6.5rem);
+      line-height: 1.0;
+      color: var(--white);
+      margin-bottom: 1.2rem;
+      text-shadow: 0 4px 32px rgba(43,26,14,0.6);
+      opacity: 0;
+      animation: headline-in 0.85s cubic-bezier(0.25,0.46,0.45,0.94) 0.85s forwards;
+    }
+
+    .hero-headline em {
+      color: var(--gold-light);
+      font-style: normal;
+    }
+
+    .hero-subline {
+      font-family: var(--body);
+      font-size: clamp(1rem, 2vw, 1.2rem);
+      font-weight: 400;
+      color: rgba(253,250,244,0.88);
+      max-width: 560px;
+      margin: 0 auto 2.2rem;
+      line-height: 1.65;
+      opacity: 0;
+      animation: subline-in 0.75s ease 1.35s forwards;
+    }
+
+    .hero-ctas {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: cta-in 0.65s ease 1.75s forwards;
+    }
+
+    .btn-primary {
+      font-family: var(--sans);
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      background: var(--gold);
+      color: var(--brown);
+      padding: 0.85rem 2.2rem;
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+      display: inline-block;
+    }
+    .btn-primary:hover {
+      background: var(--gold-light);
+      transform: translateY(-1px);
+    }
+
+    .btn-ghost {
+      font-family: var(--sans);
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      background: transparent;
+      color: var(--white);
+      padding: 0.85rem 2.2rem;
+      border: 1.5px solid rgba(253,250,244,0.55);
+      cursor: pointer;
+      transition: border-color 0.2s, color 0.2s, transform 0.15s;
+      display: inline-block;
+    }
+    .btn-ghost:hover {
+      border-color: var(--gold-light);
+      color: var(--gold-light);
+      transform: translateY(-1px);
+    }
+
+    /* Scroll cue */
+    .hero-scroll-cue {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.4rem;
+      opacity: 0;
+      animation: cta-in 0.6s ease 2.4s forwards;
+    }
+    .hero-scroll-cue span {
+      font-family: var(--sans);
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(253,250,244,0.5);
+    }
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(6px); }
+    }
+    .hero-scroll-cue svg {
+      animation: bounce 1.8s ease-in-out infinite;
+      opacity: 0.5;
+    }
+
+    /* prefers-reduced-motion: pause video, skip animations */
+    @media (prefers-reduced-motion: reduce) {
+      .hero-bg-video { display: none; }
+      .hero-video { background: url('https://www.boyercandies.com/cdn/shop/files/12105highresbox.jpg?v=1&width=533') center/cover no-repeat; }
+      .hero-eyebrow,
+      .hero-headline,
+      .hero-subline,
+      .hero-ctas,
+      .hero-scroll-cue { opacity: 1; animation: none; }
+      .hero-headline { transform: none; }
+    }
+
+    /* ── Stats Strip ── */
+    .stats-strip {
+      background: var(--brown);
+      display: flex;
+      justify-content: center;
+      gap: 0;
+      flex-wrap: wrap;
+    }
+    .stat {
+      flex: 1;
+      min-width: 160px;
+      text-align: center;
+      padding: 2rem 1.5rem;
+      border-right: 1px solid rgba(201,146,42,0.15);
+    }
+    .stat:last-child { border-right: none; }
+    .stat-number {
+      font-family: var(--serif);
+      font-size: 2.4rem;
+      color: var(--gold);
+      display: block;
+      line-height: 1;
+      margin-bottom: 0.4rem;
+    }
+    .stat-label {
+      font-family: var(--slab);
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(253,250,244,0.55);
+    }
+
+    /* ── Section Shared ── */
+    .section-eyebrow {
+      font-family: var(--slab);
+      font-style: italic;
+      font-size: 0.85rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 0.75rem;
+      display: block;
+    }
+    .section-title {
+      font-family: var(--serif);
+      font-size: clamp(2rem, 4vw, 3rem);
+      color: var(--brown);
+      line-height: 1.1;
+      margin-bottom: 1rem;
+    }
+    .section-body {
+      font-family: var(--body);
+      font-size: 1rem;
+      color: var(--text-mid);
+      line-height: 1.75;
+      max-width: 540px;
+    }
+
+    /* ── Featured Products ── */
+    .featured {
+      padding: 6rem 2.5rem;
+    }
+    .featured-header {
+      text-align: center;
+      margin-bottom: 3.5rem;
+    }
+    .featured-header .section-body {
+      margin: 0 auto;
+    }
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 1.5rem;
+      max-width: 1200px;
+      margin: 0 auto 2.5rem;
+    }
+    .product-card {
+      background: var(--choc);
+      overflow: hidden;
+      transition: transform 0.25s;
+    }
+    .product-card:hover { transform: translateY(-4px); }
+    .product-card-img {
+      width: 100%;
+      aspect-ratio: 4/3;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+    }
+    .product-card-body {
+      padding: 1.1rem 1.2rem 1.3rem;
+    }
+    .product-card-name {
+      font-family: var(--slab);
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--white);
+      margin-bottom: 0.3rem;
+    }
+    .product-card-price {
+      font-family: var(--sans);
+      font-size: 0.88rem;
+      font-weight: 400;
+      color: var(--gold);
+    }
+    .badge {
+      display: inline-block;
+      font-family: var(--sans);
+      font-size: 0.65rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      background: var(--red);
+      color: var(--white);
+      padding: 0.2rem 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+    .badge-new { background: var(--gold); color: var(--brown); }
+    .featured-cta {
+      text-align: center;
+    }
+    .btn-outline {
+      font-family: var(--sans);
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--brown);
+      border: 2px solid var(--brown);
+      padding: 0.8rem 2rem;
+      display: inline-block;
+      transition: background 0.2s, color 0.2s;
+    }
+    .btn-outline:hover {
+      background: var(--brown);
+      color: var(--cream);
+    }
+
+    /* ── Heritage Band ── */
+    .heritage {
+      background: var(--cream-dark);
+      padding: 6rem 2.5rem;
+    }
+    .heritage-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+    }
+    .heritage-img-wrap {
+      position: relative;
+    }
+    .heritage-img {
+      width: 100%;
+      aspect-ratio: 4/5;
+      object-fit: cover;
+    }
+    .heritage-accent {
+      position: absolute;
+      bottom: -1.5rem;
+      left: -1.5rem;
+      width: 60%;
+      height: 60%;
+      border: 3px solid var(--gold);
+      z-index: -1;
+    }
+    .heritage-text .section-body {
+      margin-bottom: 1.5rem;
+    }
+
+    /* ── Play Money Band ── */
+    .play-money-band {
+      background: var(--red);
+      padding: 4rem 2.5rem;
+      text-align: center;
+    }
+    .play-money-band .section-eyebrow { color: var(--gold-light); }
+    .play-money-band .section-title { color: var(--white); }
+    .play-money-band .section-body {
+      color: rgba(253,250,244,0.85);
+      margin: 0 auto 2rem;
+    }
+    .btn-white {
+      font-family: var(--sans);
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      background: var(--white);
+      color: var(--red-dark);
+      padding: 0.85rem 2.2rem;
+      display: inline-block;
+      transition: background 0.2s;
+    }
+    .btn-white:hover { background: var(--cream); }
+
+    /* ── Footer ── */
+    footer {
+      background: var(--brown);
+      color: var(--cream);
+      padding: 4rem 2.5rem 2rem;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 3rem;
+      max-width: 1200px;
+      margin: 0 auto 3rem;
+    }
+    .footer-brand-name {
+      font-family: var(--serif);
+      font-size: 1.6rem;
+      color: var(--white);
+      margin-bottom: 0.75rem;
+    }
+    .footer-brand-name span { color: var(--gold); }
+    .footer-blurb {
+      font-family: var(--body);
+      font-size: 0.85rem;
+      color: rgba(245,239,224,0.65);
+      line-height: 1.7;
+      margin-bottom: 1rem;
+    }
+    .footer-address {
+      font-family: var(--sans);
+      font-size: 0.78rem;
+      color: rgba(245,239,224,0.45);
+      line-height: 1.7;
+    }
+    .footer-col-title {
+      font-family: var(--slab);
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1rem;
+    }
+    .footer-col ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+    .footer-col a {
+      font-family: var(--sans);
+      font-size: 0.83rem;
+      color: rgba(245,239,224,0.65);
+      transition: color 0.2s;
+    }
+    .footer-col a:hover { color: var(--gold-light); }
+    .footer-bottom {
+      border-top: 1px solid rgba(201,146,42,0.15);
+      padding-top: 1.5rem;
+      text-align: center;
+      font-family: var(--sans);
+      font-size: 0.72rem;
+      color: rgba(245,239,224,0.3);
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    /* ── Scroll Reveal ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.65s ease, transform 0.65s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 900px) {
+      .heritage-inner { grid-template-columns: 1fr; gap: 3rem; }
+      .heritage-accent { display: none; }
+      .footer-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
+    }
+    @media (max-width: 640px) {
+      nav { padding: 0 1.25rem; }
+      .nav-links { display: none; }
+      .hero-content { padding: 1.25rem; }
+      .featured { padding: 4rem 1.25rem; }
+      .heritage { padding: 4rem 1.25rem; }
+      .play-money-band { padding: 3rem 1.25rem; }
+      .footer-grid { grid-template-columns: 1fr; }
+      footer { padding: 3rem 1.25rem 1.5rem; }
+      .stats-strip { flex-direction: column; }
+      .stat { border-right: none; border-bottom: 1px solid rgba(201,146,42,0.15); }
+      .stat:last-child { border-bottom: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Announcement Bar -->
+  <div class="announcement">Free shipping on orders over $75 · Handcrafted in Altoona, PA since 1936</div>
+
+  <!-- Nav -->
+  <nav>
+    <a href="index.html" class="nav-logo">Boyer <span>Candy</span></a>
+    <ul class="nav-links">
+      <li><a href="shop.html">Shop</a></li>
+      <li><a href="our-story.html">Our Story</a></li>
+      <li><a href="fundraising.html">Fundraising</a></li>
+      <li><a href="play-money.html">Play Money Rewards</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <a href="cart.html" class="nav-cart">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+      Cart
+    </a>
+  </nav>
+
+  <!-- Hero: Full-Width Video -->
+  <section class="hero-video">
+    <video class="hero-bg-video" autoplay muted loop playsinline
+           poster="https://www.boyercandies.com/cdn/shop/files/12105highresbox.jpg?v=1&width=533">
+      <source src="hero-video.mp4" type="video/mp4">
+    </video>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <span class="hero-eyebrow">Handcrafted in Altoona, PA · Since 1936</span>
+      <h1 class="hero-headline">The Cup That<br><em>Started It All.</em></h1>
+      <p class="hero-subline">Mallo Cups have been made the same way for nearly 90 years — real chocolate, real marshmallow, and zero shortcuts.</p>
+      <div class="hero-ctas">
+        <a href="shop.html" class="btn-primary">Shop Now</a>
+        <a href="our-story.html" class="btn-ghost">Our Story</a>
+      </div>
+    </div>
+    <div class="hero-scroll-cue">
+      <span>Scroll</span>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+        <path d="M12 5v14M5 12l7 7 7-7"/>
+      </svg>
+    </div>
+  </section>
+
+  <!-- Stats Strip -->
+  <div class="stats-strip">
+    <div class="stat reveal">
+      <span class="stat-number">1936</span>
+      <span class="stat-label">Founded in Altoona</span>
+    </div>
+    <div class="stat reveal">
+      <span class="stat-number">90+</span>
+      <span class="stat-label">Years of Craft</span>
+    </div>
+    <div class="stat reveal">
+      <span class="stat-number">7</span>
+      <span class="stat-label">Iconic Products</span>
+    </div>
+    <div class="stat reveal">
+      <span class="stat-number">100%</span>
+      <span class="stat-label">Made in America</span>
+    </div>
+  </div>
+
+  <!-- Featured Products -->
+  <section class="featured">
+    <div class="featured-header reveal">
+      <span class="section-eyebrow">The Collection</span>
+      <h2 class="section-title">Boyer's Best Sellers</h2>
+      <p class="section-body">From the original Mallo Cup to the legendary Clark Bar — every product we make starts with real ingredients and ends with real satisfaction.</p>
+    </div>
+    <div class="product-grid">
+      <div class="product-card reveal">
+        <img class="product-card-img" src="https://www.boyercandies.com/cdn/shop/files/12105highresbox.jpg?v=1&width=533" alt="Mallo Cup 24 ct Box" loading="lazy">
+        <div class="product-card-body">
+          <div class="product-card-name">Mallo Cup — 24 ct Box</div>
+          <div class="product-card-price">$29.99</div>
+        </div>
+      </div>
+      <div class="product-card reveal">
+        <img class="product-card-img" src="https://www.boyercandies.com/cdn/shop/files/ClarkBar-box.jpg?v=1&width=533" alt="Clark Bar Box" loading="lazy">
+        <div class="product-card-body">
+          <div class="product-card-name">Clark Bar — Box</div>
+          <div class="product-card-price">$49.99</div>
+        </div>
+      </div>
+      <div class="product-card reveal">
+        <img class="product-card-img" src="https://www.boyercandies.com/cdn/shop/files/12109_Mega_Mallo.jpg?v=1&width=533" alt="Mega Mallo Cup" loading="lazy">
+        <div class="product-card-body">
+          <span class="badge badge-new">New</span>
+          <div class="product-card-name">Mega Mallo Cup</div>
+          <div class="product-card-price">$9.99</div>
+        </div>
+      </div>
+      <div class="product-card reveal">
+        <img class="product-card-img" src="https://www.boyercandies.com/cdn/shop/files/12306PeanutButterCupshighres-Copy.jpg?v=1&width=533" alt="Peanut Butter Cup Box" loading="lazy">
+        <div class="product-card-body">
+          <div class="product-card-name">Peanut Butter Cup — 24 ct</div>
+          <div class="product-card-price">$29.99</div>
+        </div>
+      </div>
+    </div>
+    <div class="featured-cta reveal">
+      <a href="shop.html" class="btn-outline">View Full Collection</a>
+    </div>
+  </section>
+
+  <!-- Heritage Band -->
+  <section class="heritage">
+    <div class="heritage-inner">
+      <div class="heritage-img-wrap reveal">
+        <img class="heritage-img" src="https://www.boyercandies.com/cdn/shop/files/12105Mallohighresbar.jpg?v=1&width=533" alt="Mallo Cup Bar">
+        <div class="heritage-accent"></div>
+      </div>
+      <div class="heritage-text">
+        <span class="section-eyebrow reveal">Our Heritage</span>
+        <h2 class="section-title reveal">Nearly 90 Years &amp; Not One Shortcut.</h2>
+        <p class="section-body reveal">Boyer Candy Company was founded in Altoona, Pennsylvania in 1936. From day one, the goal was simple: make the best candy in America using real chocolate and real ingredients. That hasn't changed. The machinery has been upgraded. The recipes haven't.</p>
+        <p class="section-body reveal" style="margin-top:1rem;">We're still in Altoona. We're still making Mallo Cups. And we're still doing it the right way.</p>
+        <a href="our-story.html" class="btn-outline reveal" style="margin-top:2rem;display:inline-block;">Read Our Story</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Play Money Band -->
+  <section class="play-money-band">
+    <span class="section-eyebrow reveal">Boyer Rewards</span>
+    <h2 class="section-title reveal">Earn Free Candy.<br>It's That Simple.</h2>
+    <p class="section-body reveal">Every Boyer product comes with a Play Money card inside. Collect them, redeem them, get free candy. It's the most fun loyalty program in the business — and it's been around almost as long as we have.</p>
+    <a href="play-money.html" class="btn-white reveal">Learn About Play Money</a>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand-name">Boyer <span>Candy</span></div>
+        <p class="footer-blurb">Handcrafting America's favorite chocolate cups since 1936. Made in Altoona, Pennsylvania with real ingredients and no shortcuts.</p>
+        <p class="footer-address">Boyer Candy Company<br>821 17th Street<br>Altoona, PA 16601</p>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title">Shop</div>
+        <ul>
+          <li><a href="shop.html">All Products</a></li>
+          <li><a href="shop.html">Cups & Bars</a></li>
+          <li><a href="shop.html">Snack Bags</a></li>
+          <li><a href="shop.html">Merch</a></li>
+          <li><a href="shop.html">Novelties</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title">Company</div>
+        <ul>
+          <li><a href="our-story.html">Our Story</a></li>
+          <li><a href="fundraising.html">Fundraising</a></li>
+          <li><a href="play-money.html">Play Money Rewards</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title">Help</div>
+        <ul>
+          <li><a href="shipping.html">Shipping Policy</a></li>
+          <li><a href="contact.html">Customer Service</a></li>
+          <li><a href="404.html">FAQ</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      &copy; 2026 Boyer Candy Company. All rights reserved. Mallo Cup&reg; and Clark Bar&reg; are registered trademarks.
+    </div>
+  </footer>
+
+  <script>
+    // Scroll Reveal
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // prefers-reduced-motion: pause video
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      const video = document.querySelector('.hero-bg-video');
+      if (video) { video.pause(); video.removeAttribute('autoplay'); }
+    }
+  </script>
+</body>
+</html>
