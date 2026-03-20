@@ -160,9 +160,51 @@
     .quick-item-label { font-family: var(--sans); font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(245,239,224,0.45); transition: color 0.2s; }
     .quick-item:hover .quick-item-label { color: var(--gold); }
 
+    /* RECOVERY LINKS */
+    .recovery-links {
+      margin-top: 56px;
+      padding-top: 40px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+    }
+    .recovery-links h3 {
+      font-family: var(--slab);
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(245,239,224,0.5);
+      margin-bottom: 20px;
+    }
+    .recovery-grid {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .recovery-card {
+      font-family: var(--sans);
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-weight: 500;
+      color: var(--brown);
+      background: var(--cream);
+      border: 2px solid var(--cream-dark);
+      padding: 10px 22px;
+      border-radius: 999px;
+      text-decoration: none;
+      transition: background 0.2s, color 0.2s, border-color 0.2s;
+      display: inline-block;
+    }
+    .recovery-card:hover {
+      background: var(--gold);
+      border-color: var(--gold);
+      color: var(--brown);
+    }
+
     @media (max-width: 600px) {
       nav { padding: 0 20px; }
       .not-found-links { flex-direction: column; align-items: center; }
+      .recovery-grid { flex-direction: column; align-items: center; }
     }
   </style>
 </head>
@@ -217,6 +259,17 @@
         <div class="quick-item-label">Contact</div>
       </a>
     </div>
+
+    <div class="recovery-links">
+      <h3>Try one of these instead:</h3>
+      <div class="recovery-grid">
+        <a href="shop.html" class="recovery-card">Shop All Products</a>
+        <a href="our-story.html" class="recovery-card">Our Story</a>
+        <a href="play-money.html" class="recovery-card">Play Money Rewards</a>
+        <a href="contact.html" class="recovery-card">Contact Us</a>
+      </div>
+    </div>
+
   </div>
 </div>
 

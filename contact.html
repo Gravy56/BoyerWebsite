@@ -194,20 +194,22 @@
     <p>Fill out the form and we'll get back to you within one to two business days. For faster responses, include as much detail as possible.</p>
 
     <div id="formWrap">
-      <form class="contact-form" onsubmit="handleContact(event)">
+      <form class="contact-form" id="contactForm" onsubmit="handleContact(event)" novalidate>
         <div class="form-row-2">
           <div class="form-group">
-            <label class="form-label">First Name</label>
-            <input class="form-input" type="text" placeholder="First name" required />
+            <label class="form-label" for="fieldFirstName">First Name</label>
+            <input class="form-input" id="fieldFirstName" type="text" placeholder="First name" />
+            <span class="field-error" id="name-error" role="alert" style="display:none;color:#C0392B;font-size:0.8rem;margin-top:0.25rem;display:block;"></span>
           </div>
           <div class="form-group">
-            <label class="form-label">Last Name</label>
-            <input class="form-input" type="text" placeholder="Last name" required />
+            <label class="form-label" for="fieldLastName">Last Name</label>
+            <input class="form-input" id="fieldLastName" type="text" placeholder="Last name" />
           </div>
         </div>
         <div class="form-group">
-          <label class="form-label">Email Address</label>
-          <input class="form-input" type="email" placeholder="your@email.com" required />
+          <label class="form-label" for="fieldEmail">Email Address</label>
+          <input class="form-input" id="fieldEmail" type="email" placeholder="your@email.com" />
+          <span class="field-error" id="email-error" role="alert" style="display:none;color:#C0392B;font-size:0.8rem;margin-top:0.25rem;display:block;"></span>
         </div>
         <div class="form-group">
           <label class="form-label">Reason for Contact</label>
@@ -226,8 +228,9 @@
           <input class="form-input" type="text" placeholder="e.g. #12345" />
         </div>
         <div class="form-group">
-          <label class="form-label">Message</label>
-          <textarea class="form-textarea" placeholder="Tell us what's on your mind…" required></textarea>
+          <label class="form-label" for="fieldMessage">Message</label>
+          <textarea class="form-textarea" id="fieldMessage" placeholder="Tell us what's on your mind…"></textarea>
+          <span class="field-error" id="message-error" role="alert" style="display:none;color:#C0392B;font-size:0.8rem;margin-top:0.25rem;display:block;"></span>
         </div>
         <button class="form-submit" type="submit">Send Message</button>
         <div class="form-note">We typically respond within 1–2 business days. For urgent order issues, please include your order number.</div>
@@ -359,8 +362,65 @@
   }, { threshold: 0.1 });
   document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
+  // Real-time validation: clear errors when user starts typing
+  document.getElementById('fieldFirstName').addEventListener('input', function() {
+    clearError(this, 'name-error');
+  });
+  document.getElementById('fieldEmail').addEventListener('input', function() {
+    clearError(this, 'email-error');
+  });
+  document.getElementById('fieldMessage').addEventListener('input', function() {
+    clearError(this, 'message-error');
+  });
+
+  function clearError(input, errorId) {
+    input.style.borderColor = '';
+    const errEl = document.getElementById(errorId);
+    if (errEl) { errEl.textContent = ''; errEl.style.display = 'none'; }
+  }
+
+  function showError(input, errorId, message) {
+    input.style.borderColor = '#C0392B';
+    const errEl = document.getElementById(errorId);
+    if (errEl) { errEl.textContent = message; errEl.style.display = 'block'; }
+  }
+
+  function validateForm() {
+    let valid = true;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    const nameInput = document.getElementById('fieldFirstName');
+    const emailInput = document.getElementById('fieldEmail');
+    const messageInput = document.getElementById('fieldMessage');
+
+    const name = nameInput.value.trim();
+    const email = emailInput.value.trim();
+    const message = messageInput.value.trim();
+
+    if (name.length < 2) {
+      showError(nameInput, 'name-error', name.length === 0 ? 'Name is required.' : 'Name must be at least 2 characters.');
+      valid = false;
+    }
+
+    if (!email) {
+      showError(emailInput, 'email-error', 'Email address is required.');
+      valid = false;
+    } else if (!emailRegex.test(email)) {
+      showError(emailInput, 'email-error', 'Please enter a valid email address.');
+      valid = false;
+    }
+
+    if (message.length < 10) {
+      showError(messageInput, 'message-error', message.length === 0 ? 'Message is required.' : 'Message must be at least 10 characters.');
+      valid = false;
+    }
+
+    return valid;
+  }
+
   function handleContact(e) {
     e.preventDefault();
+    if (!validateForm()) return;
     document.getElementById('formWrap').style.display = 'none';
     document.getElementById('formSuccess').style.display = 'block';
   }

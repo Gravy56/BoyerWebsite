@@ -199,7 +199,7 @@
   <div class="policy-section">
     <div class="policy-section-label">Warm Weather Shipping</div>
     <h2>Heat Advisory</h2>
-    <div class="heat-warning">
+    <div class="heat-warning" id="heat-warning">
       <div class="heat-warning-title">⚠ Important: Chocolate Melting Risk</div>
       <p>Boyer Candy contains real chocolate, which can melt in high temperatures. During warm months (typically May through September), we strongly recommend selecting expedited shipping to minimize time in transit. Boyer Candy Company is not responsible for melted candy caused by high ambient temperatures during shipping.</p>
     </div>
@@ -270,5 +270,11 @@
   </div>
 </footer>
 
+<script>
+  const month = new Date().getMonth(); // 0-indexed
+  const isWarmSeason = month >= 3 && month <= 8;
+  const heatWarning = document.getElementById('heat-warning');
+  if (heatWarning) heatWarning.style.display = isWarmSeason ? 'block' : 'none';
+</script>
 </body>
 </html>
