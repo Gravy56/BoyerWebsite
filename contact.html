@@ -148,6 +148,34 @@
     .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
     .reveal.visible { opacity: 1; transform: none; }
 
+    /* ── Skip Link ── */
+    .skip-link {
+      position: absolute;
+      top: -100%;
+      left: 1rem;
+      background: #271310;
+      color: #FFF9F0;
+      padding: 0.75rem 1.5rem;
+      border-radius: 0 0 0.5rem 0.5rem;
+      font-size: 0.875rem;
+      font-weight: 600;
+      text-decoration: none;
+      z-index: 9999;
+      transition: top 0.2s;
+    }
+    .skip-link:focus { top: 0; }
+
+    /* ── Focus Visible ── */
+    :focus-visible {
+      outline: 3px solid #C9922A;
+      outline-offset: 3px;
+      border-radius: 3px;
+    }
+    button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
+      outline: 3px solid #C9922A;
+      outline-offset: 3px;
+    }
+
     @media (max-width: 900px) {
       .contact-layout { grid-template-columns: 1fr; }
       .contact-form-side { padding: 48px 24px; border-right: none; border-bottom: 2px solid var(--cream-dark); }
@@ -163,9 +191,12 @@
 </head>
 <body>
 
+<a href="#main-content" class="skip-link">Skip to main content</a>
+
 <div class="announcement">Free shipping on orders over $75 · Handcrafted in Altoona, PA since 1936</div>
 
-<nav>
+<header role="banner">
+<nav aria-label="Main navigation">
   <a href="index.html" class="nav-logo">Boyer <span>Candy</span></a>
   <ul class="nav-links">
     <li><a href="shop.html">Shop</a></li>
