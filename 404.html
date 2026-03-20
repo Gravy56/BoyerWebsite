@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Page Not Found — Boyer Candy Company</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Josefin+Slab:ital,wght@0,300;0,400;0,600;0,700;1,400;1,700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --cream: #F5EFE0; --cream-dark: #EDE4CC; --brown: #2B1A0E;
+      --brown-mid: #5C3317; --choc: #3D1F0D; --gold: #C9922A;
+      --gold-light: #E8B84B; --red: #C0392B;
+      --serif: 'Alfa Slab One', 'Josefin Slab', Georgia, serif;
+      --slab: 'Josefin Slab', Georgia, serif;
+      --body: 'Libre Baskerville', Georgia, serif;
+      --sans: 'DM Sans', sans-serif;
+    }
+    html, body { height: 100%; }
+    body { background: var(--brown); color: var(--cream); font-family: var(--body); display: flex; flex-direction: column; overflow-x: hidden; }
+
+    nav { background: var(--brown); border-bottom: 2px solid rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: space-between; padding: 0 48px; height: 72px; }
+    .nav-logo { font-family: var(--serif); font-size: 1.4rem; font-weight: 400; color: var(--cream); text-decoration: none; letter-spacing: 0.01em; }
+    .nav-logo span { color: var(--red); }
+    .nav-cart { display: flex; align-items: center; gap: 8px; font-family: var(--sans); font-size: 0.82rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--cream); background: rgba(255,255,255,0.1); border: none; padding: 10px 20px; cursor: pointer; text-decoration: none; transition: background 0.2s; }
+    .nav-cart:hover { background: var(--red); }
+
+    .not-found {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 60px 40px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .not-found-bg {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .not-found-bg-num {
+      font-family: var(--serif);
+      font-size: clamp(20rem, 40vw, 36rem);
+      font-weight: 400;
+      color: rgba(255,255,255,0.03);
+      letter-spacing: -0.08em;
+      line-height: 1;
+      user-select: none;
+    }
+
+    .not-found-content {
+      position: relative;
+      z-index: 1;
+      max-width: 560px;
+    }
+
+    .not-found-candy {
+      font-size: 4rem;
+      margin-bottom: 20px;
+      animation: wobble 3s ease-in-out infinite;
+    }
+    @keyframes wobble {
+      0%, 100% { transform: rotate(-4deg); }
+      50% { transform: rotate(4deg); }
+    }
+
+    .not-found-eyebrow {
+      font-family: var(--sans);
+      font-size: 0.72rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 20px;
+    }
+
+    .not-found-title {
+      font-family: var(--serif);
+      font-size: clamp(2.5rem, 5vw, 4.5rem);
+      font-weight: 400;
+      color: var(--cream);
+      line-height: 1;
+      letter-spacing: -0.02em;
+      margin-bottom: 20px;
+    }
+    .not-found-title em { color: var(--gold-light); font-style: italic; }
+
+    .not-found-body {
+      font-family: var(--body);
+      font-size: 1rem;
+      color: rgba(245,239,224,0.65);
+      line-height: 1.8;
+      margin-bottom: 48px;
+    }
+
+    .not-found-links {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn-gold {
+      font-family: var(--sans);
+      font-size: 0.78rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      font-weight: 500;
+      background: var(--gold);
+      color: var(--brown);
+      border: 2px solid var(--gold);
+      padding: 14px 32px;
+      text-decoration: none;
+      display: inline-block;
+      transition: all 0.2s;
+    }
+    .btn-gold:hover { background: var(--gold-light); border-color: var(--gold-light); }
+
+    .btn-ghost {
+      font-family: var(--sans);
+      font-size: 0.78rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      font-weight: 500;
+      background: transparent;
+      color: rgba(245,239,224,0.7);
+      border: 2px solid rgba(245,239,224,0.25);
+      padding: 14px 32px;
+      text-decoration: none;
+      display: inline-block;
+      transition: all 0.2s;
+    }
+    .btn-ghost:hover { border-color: var(--cream); color: var(--cream); }
+
+    .not-found-quick {
+      margin-top: 64px;
+      padding-top: 40px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      display: flex;
+      gap: 40px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .quick-item { text-decoration: none; text-align: center; }
+    .quick-item-icon { font-size: 1.6rem; margin-bottom: 6px; }
+    .quick-item-label { font-family: var(--sans); font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(245,239,224,0.45); transition: color 0.2s; }
+    .quick-item:hover .quick-item-label { color: var(--gold); }
+
+    @media (max-width: 600px) {
+      nav { padding: 0 20px; }
+      .not-found-links { flex-direction: column; align-items: center; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">Boyer <span>Candy</span></a>
+  <a href="cart.html" class="nav-cart">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+    Cart
+  </a>
+</nav>
+
+<div class="not-found">
+  <div class="not-found-bg">
+    <div class="not-found-bg-num">404</div>
+  </div>
+
+  <div class="not-found-content">
+    <div class="not-found-candy">🍫</div>
+    <div class="not-found-eyebrow">Error 404 — Page Not Found</div>
+    <h1 class="not-found-title">
+      This Page<br>Got <em>Eaten.</em>
+    </h1>
+    <p class="not-found-body">
+      Looks like this page melted away — or never existed in the first place. Don't worry, we still have plenty of candy where that came from.
+    </p>
+    <div class="not-found-links">
+      <a href="index.html" class="btn-gold">Back to Home</a>
+      <a href="shop.html" class="btn-ghost">Shop All Candy</a>
+    </div>
+
+    <div class="not-found-quick">
+      <a href="shop.html" class="quick-item">
+        <div class="quick-item-icon">🛍</div>
+        <div class="quick-item-label">Shop</div>
+      </a>
+      <a href="our-story.html" class="quick-item">
+        <div class="quick-item-icon">📖</div>
+        <div class="quick-item-label">Our Story</div>
+      </a>
+      <a href="play-money.html" class="quick-item">
+        <div class="quick-item-icon">💰</div>
+        <div class="quick-item-label">Play Money</div>
+      </a>
+      <a href="fundraising.html" class="quick-item">
+        <div class="quick-item-icon">📦</div>
+        <div class="quick-item-label">Fundraising</div>
+      </a>
+      <a href="contact.html" class="quick-item">
+        <div class="quick-item-icon">✉️</div>
+        <div class="quick-item-label">Contact</div>
+      </a>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

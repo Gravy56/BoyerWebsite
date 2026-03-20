@@ -651,7 +651,7 @@
 
       <!-- The video — frame controlled by scroll position, not autoplay -->
       <div class="reveal-subject-wrap">
-        <video class="reveal-subject" muted playsinline preload="auto"
+        <video class="reveal-subject" muted playsinline preload="auto" disablepictureinpicture
                poster="https://www.boyercandies.com/cdn/shop/files/12105highresbox.jpg?v=1&width=533">
           <source src="hero-video.mp4" type="video/mp4">
         </video>
@@ -816,19 +816,21 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 
   <script>
+    // ─── Immediately stop the video from playing on its own ─────────────────
+    const video = document.querySelector('.reveal-subject');
+    video.pause();
+    video.currentTime = 0;
+
     // ─── Reduced-motion guard ────────────────────────────────────────────────
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     if (reduceMotion) {
       // Show everything immediately, skip to last video frame
-      const vid = document.querySelector('.reveal-subject');
-      vid.addEventListener('loadedmetadata', () => { vid.currentTime = vid.duration; });
+      video.addEventListener('loadedmetadata', () => { video.currentTime = video.duration; });
     } else {
 
       // ─── GSAP ScrollTrigger: Video-Scrub + Clip-Path Reveal ────────────────
       gsap.registerPlugin(ScrollTrigger);
-
-      const video = document.querySelector('.reveal-subject');
 
       function initScrollReveal() {
         const duration = video.duration;

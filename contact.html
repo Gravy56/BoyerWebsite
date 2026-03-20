@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact Us — Boyer Candy Company</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Josefin+Slab:ital,wght@0,300;0,400;0,600;0,700;1,400;1,700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --cream: #F5EFE0; --cream-dark: #EDE4CC; --brown: #2B1A0E;
+      --brown-mid: #5C3317; --choc: #3D1F0D; --gold: #C9922A;
+      --gold-light: #E8B84B; --red: #C0392B; --red-dark: #922B21;
+      --white: #FDFAF4; --text: #1E1008; --text-mid: #5C3317;
+      --serif: 'Alfa Slab One', 'Josefin Slab', Georgia, serif;
+      --slab: 'Josefin Slab', Georgia, serif;
+      --body: 'Libre Baskerville', Georgia, serif;
+      --sans: 'DM Sans', sans-serif;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--cream); color: var(--text); font-family: var(--body); overflow-x: hidden; }
+
+    .announcement { background: var(--brown); color: var(--gold-light); text-align: center; padding: 10px 20px; font-family: var(--sans); font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase; }
+    nav { position: sticky; top: 0; z-index: 100; background: var(--cream); border-bottom: 2px solid var(--brown); display: flex; align-items: center; justify-content: space-between; padding: 0 48px; height: 72px; }
+    .nav-logo { font-family: var(--serif); font-size: 1.4rem; font-weight: 400; color: var(--brown); text-decoration: none; letter-spacing: 0.01em; }
+    .nav-logo span { color: var(--red); }
+    .nav-links { display: flex; align-items: center; gap: 36px; list-style: none; }
+    .nav-links a { font-family: var(--sans); font-size: 0.82rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--brown); text-decoration: none; font-weight: 500; transition: color 0.2s; position: relative; }
+    .nav-links a::after { content: ''; position: absolute; bottom: -3px; left: 0; right: 0; height: 2px; background: var(--red); transform: scaleX(0); transform-origin: left; transition: transform 0.25s ease; }
+    .nav-links a:hover, .nav-links a.active { color: var(--red); }
+    .nav-links a:hover::after, .nav-links a.active::after { transform: scaleX(1); }
+    .nav-cart { display: flex; align-items: center; gap: 8px; font-family: var(--sans); font-size: 0.82rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--white); background: var(--brown); border: none; padding: 10px 20px; cursor: pointer; text-decoration: none; transition: background 0.2s; }
+    .nav-cart:hover { background: var(--red); }
+
+    /* PAGE HEADER */
+    .page-header {
+      background: var(--brown);
+      padding: 72px 80px 64px;
+      position: relative;
+      overflow: hidden;
+    }
+    .page-header::after {
+      content: 'HELLO';
+      position: absolute;
+      right: 40px; top: 50%;
+      transform: translateY(-50%);
+      font-family: var(--serif);
+      font-size: 10rem;
+      font-weight: 400;
+      color: rgba(255,255,255,0.04);
+      letter-spacing: -0.05em;
+      pointer-events: none;
+      line-height: 1;
+    }
+    .page-header-eyebrow { font-family: var(--slab); font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; display: flex; align-items: center; gap: 12px; }
+    .page-header-eyebrow::before { content: ''; display: block; width: 28px; height: 1px; background: var(--gold); }
+    .page-header h1 { font-family: var(--serif); font-size: clamp(3rem, 5vw, 5rem); font-weight: 400; color: var(--cream); letter-spacing: -0.02em; line-height: 1; }
+    .page-header h1 em { color: var(--gold-light); font-style: italic; }
+    .page-header-sub { font-family: var(--body); font-size: 1rem; color: rgba(245,239,224,0.6); margin-top: 16px; max-width: 480px; line-height: 1.7; }
+
+    /* MAIN LAYOUT */
+    .contact-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    /* LEFT - FORM */
+    .contact-form-side {
+      padding: 72px 64px 80px 80px;
+      border-right: 2px solid var(--cream-dark);
+    }
+    .contact-form-side h2 { font-family: var(--serif); font-size: 2rem; font-weight: 400; color: var(--brown); margin-bottom: 8px; letter-spacing: -0.02em; }
+    .contact-form-side p { font-family: var(--body); font-size: 0.92rem; color: var(--text-mid); line-height: 1.75; margin-bottom: 36px; }
+
+    .contact-form { display: flex; flex-direction: column; gap: 20px; }
+    .form-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .form-group { display: flex; flex-direction: column; gap: 8px; }
+    .form-label { font-family: var(--sans); font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--brown-mid); }
+    .form-input, .form-select, .form-textarea { font-family: var(--sans); font-size: 0.88rem; padding: 13px 16px; border: 2px solid var(--cream-dark); background: var(--white); color: var(--text); outline: none; transition: border-color 0.2s; width: 100%; }
+    .form-input:focus, .form-select:focus, .form-textarea:focus { border-color: var(--brown); }
+    .form-input::placeholder, .form-textarea::placeholder { color: rgba(92,51,23,0.35); }
+    .form-textarea { resize: vertical; min-height: 140px; line-height: 1.6; }
+    .form-select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%232B1A0E' stroke-width='2' fill='none'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; cursor: pointer; }
+    .form-submit { font-family: var(--sans); font-size: 0.8rem; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 500; background: var(--brown); color: var(--cream); border: 2px solid var(--brown); padding: 16px 36px; cursor: pointer; transition: all 0.2s; align-self: flex-start; }
+    .form-submit:hover { background: var(--red); border-color: var(--red); }
+    .form-note { font-family: var(--sans); font-size: 0.72rem; color: rgba(92,51,23,0.5); letter-spacing: 0.04em; }
+
+    /* SUCCESS STATE */
+    .form-success { display: none; text-align: center; padding: 48px 24px; }
+    .form-success-icon { font-size: 3rem; margin-bottom: 16px; }
+    .form-success h3 { font-family: var(--serif); font-size: 1.8rem; font-weight: 400; color: var(--brown); margin-bottom: 12px; }
+    .form-success p { font-family: var(--body); font-size: 0.95rem; color: var(--text-mid); line-height: 1.7; }
+
+    /* RIGHT - INFO */
+    .contact-info-side {
+      padding: 72px 80px 80px 64px;
+      background: var(--cream-dark);
+    }
+    .contact-info-side h2 { font-family: var(--serif); font-size: 2rem; font-weight: 400; color: var(--brown); margin-bottom: 36px; letter-spacing: -0.02em; }
+
+    .contact-block { margin-bottom: 40px; padding-bottom: 40px; border-bottom: 1px solid rgba(43,26,14,0.12); }
+    .contact-block:last-child { border-bottom: none; margin-bottom: 0; }
+    .contact-block-label { font-family: var(--sans); font-size: 0.68rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--red); margin-bottom: 10px; }
+    .contact-block-title { font-family: var(--serif); font-size: 1.2rem; font-weight: 400; color: var(--brown); margin-bottom: 8px; }
+    .contact-block p { font-family: var(--body); font-size: 0.92rem; color: var(--text-mid); line-height: 1.8; }
+    .contact-block a { color: var(--red); text-decoration: none; border-bottom: 1px solid transparent; transition: border-color 0.2s; }
+    .contact-block a:hover { border-color: var(--red); }
+
+    .response-times { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 16px; }
+    .rt-item { background: var(--cream); padding: 16px; border: 1px solid rgba(43,26,14,0.1); }
+    .rt-label { font-family: var(--sans); font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-mid); margin-bottom: 4px; }
+    .rt-value { font-family: var(--sans); font-size: 0.88rem; font-weight: 500; color: var(--brown); }
+
+    /* QUICK LINKS */
+    .quick-links { background: var(--brown); padding: 60px 80px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
+    .quick-link-card { background: var(--choc); padding: 36px 28px; text-decoration: none; display: block; transition: background 0.25s; border-top: 3px solid transparent; }
+    .quick-link-card:hover { background: #4a2510; border-color: var(--gold); }
+    .quick-link-icon { font-size: 1.8rem; margin-bottom: 12px; }
+    .quick-link-title { font-family: var(--serif); font-size: 1.1rem; font-weight: 400; color: var(--cream); margin-bottom: 6px; }
+    .quick-link-desc { font-family: var(--sans); font-size: 0.78rem; color: rgba(245,239,224,0.55); line-height: 1.6; }
+    .quick-link-arrow { font-family: var(--sans); font-size: 0.72rem; letter-spacing: 0.1em; color: var(--gold); margin-top: 12px; display: block; }
+
+    footer { background: var(--brown); color: var(--cream); padding: 72px 80px 40px; border-top: 1px solid rgba(255,255,255,0.08); }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 64px; padding-bottom: 64px; border-bottom: 1px solid rgba(255,255,255,0.12); }
+    .footer-brand-name { font-family: var(--serif); font-size: 1.6rem; font-weight: 400; color: var(--cream); margin-bottom: 16px; }
+    .footer-brand-name span { color: var(--gold); }
+    .footer-tagline { font-family: var(--body); font-style: italic; color: rgba(245,239,224,0.6); font-size: 0.95rem; line-height: 1.7; margin-bottom: 24px; }
+    .footer-address { font-family: var(--sans); font-size: 0.78rem; color: rgba(245,239,224,0.4); line-height: 1.8; }
+    .footer-col-title { font-family: var(--slab); font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); margin-bottom: 20px; }
+    .footer-links { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+    .footer-links a { font-family: var(--body); font-size: 0.9rem; color: rgba(245,239,224,0.7); text-decoration: none; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--gold); }
+    .footer-bottom { display: flex; align-items: center; justify-content: space-between; }
+    .footer-legal { font-family: var(--sans); font-size: 0.72rem; color: rgba(245,239,224,0.3); }
+    .footer-pay { display: flex; gap: 8px; }
+    .pay-badge { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); padding: 4px 10px; font-family: var(--sans); font-size: 0.65rem; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(245,239,224,0.5); }
+
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    @media (max-width: 900px) {
+      .contact-layout { grid-template-columns: 1fr; }
+      .contact-form-side { padding: 48px 24px; border-right: none; border-bottom: 2px solid var(--cream-dark); }
+      .contact-info-side { padding: 48px 24px; }
+      .quick-links { grid-template-columns: 1fr; padding: 40px 24px; }
+      .form-row-2 { grid-template-columns: 1fr; }
+      nav { padding: 0 20px; }
+      .nav-links { display: none; }
+      .page-header { padding: 48px 24px; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="announcement">Free shipping on orders over $75 · Handcrafted in Altoona, PA since 1936</div>
+
+<nav>
+  <a href="index.html" class="nav-logo">Boyer <span>Candy</span></a>
+  <ul class="nav-links">
+    <li><a href="shop.html">Shop</a></li>
+    <li><a href="our-story.html">Our Story</a></li>
+    <li><a href="fundraising.html">Fundraising</a></li>
+    <li><a href="play-money.html">Play Money Rewards</a></li>
+    <li><a href="contact.html" class="active">Contact</a></li>
+  </ul>
+  <a href="cart.html" class="nav-cart">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+    Cart
+  </a>
+</nav>
+
+<div class="page-header">
+  <div class="page-header-eyebrow">Boyer Candy Company</div>
+  <h1>Get in <em>Touch</em></h1>
+  <div class="page-header-sub">Questions, wholesale inquiries, fundraising orders, or just want to say hello — we're a real company in a real town and we'd love to hear from you.</div>
+</div>
+
+<div class="contact-layout">
+
+  <!-- FORM -->
+  <div class="contact-form-side reveal">
+    <h2>Send Us a Message</h2>
+    <p>Fill out the form and we'll get back to you within one to two business days. For faster responses, include as much detail as possible.</p>
+
+    <div id="formWrap">
+      <form class="contact-form" onsubmit="handleContact(event)">
+        <div class="form-row-2">
+          <div class="form-group">
+            <label class="form-label">First Name</label>
+            <input class="form-input" type="text" placeholder="First name" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Last Name</label>
+            <input class="form-input" type="text" placeholder="Last name" required />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email Address</label>
+          <input class="form-input" type="email" placeholder="your@email.com" required />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Reason for Contact</label>
+          <select class="form-select" required>
+            <option value="" disabled selected>Select a topic…</option>
+            <option value="order">Order Question or Issue</option>
+            <option value="fundraising">Fundraising Inquiry</option>
+            <option value="wholesale">Wholesale / Retail Inquiry</option>
+            <option value="playmoney">Play Money Redemption</option>
+            <option value="product">Product Feedback</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Order Number (if applicable)</label>
+          <input class="form-input" type="text" placeholder="e.g. #12345" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Message</label>
+          <textarea class="form-textarea" placeholder="Tell us what's on your mind…" required></textarea>
+        </div>
+        <button class="form-submit" type="submit">Send Message</button>
+        <div class="form-note">We typically respond within 1–2 business days. For urgent order issues, please include your order number.</div>
+      </form>
+    </div>
+
+    <div class="form-success" id="formSuccess">
+      <div class="form-success-icon">✓</div>
+      <h3>Message Sent!</h3>
+      <p>Thanks for reaching out. We'll be in touch within 1–2 business days.</p>
+    </div>
+  </div>
+
+  <!-- INFO -->
+  <div class="contact-info-side reveal">
+    <h2>Contact Information</h2>
+
+    <div class="contact-block">
+      <div class="contact-block-label">Location</div>
+      <div class="contact-block-title">Boyer Candy Company</div>
+      <p>Altoona, Pennsylvania, USA<br>
+      American-made candy since 1936.</p>
+    </div>
+
+    <div class="contact-block">
+      <div class="contact-block-label">Online Orders</div>
+      <div class="contact-block-title">Order Support</div>
+      <p>For questions about an existing online order — shipping status, damaged items, or returns — please use the contact form and include your order number. We'll sort it out.</p>
+    </div>
+
+    <div class="contact-block">
+      <div class="contact-block-label">Wholesale &amp; Retail</div>
+      <div class="contact-block-title">Carry Boyer in Your Store</div>
+      <p>Interested in stocking Boyer products? We work with retailers of all sizes. Select "Wholesale / Retail Inquiry" in the form and we'll be in touch.</p>
+    </div>
+
+    <div class="contact-block">
+      <div class="contact-block-label">Response Times</div>
+      <div class="contact-block-title">When to Expect a Reply</div>
+      <div class="response-times">
+        <div class="rt-item">
+          <div class="rt-label">General Inquiries</div>
+          <div class="rt-value">1–2 Business Days</div>
+        </div>
+        <div class="rt-item">
+          <div class="rt-label">Order Issues</div>
+          <div class="rt-value">1 Business Day</div>
+        </div>
+        <div class="rt-item">
+          <div class="rt-label">Wholesale</div>
+          <div class="rt-value">2–3 Business Days</div>
+        </div>
+        <div class="rt-item">
+          <div class="rt-label">Play Money</div>
+          <div class="rt-value">3–5 Business Days</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<!-- QUICK LINKS -->
+<div class="quick-links">
+  <a href="shop.html" class="quick-link-card reveal">
+    <div class="quick-link-icon">🍫</div>
+    <div class="quick-link-title">Shop All Candy</div>
+    <div class="quick-link-desc">Mallo Cups, Clark Bars, Smoothie Cups, and everything else we make in Altoona.</div>
+    <span class="quick-link-arrow">Browse Products →</span>
+  </a>
+  <a href="fundraising.html" class="quick-link-card reveal">
+    <div class="quick-link-icon">📦</div>
+    <div class="quick-link-title">Fundraising Kits</div>
+    <div class="quick-link-desc">High-margin fundraising candy for schools, teams, and organizations of all sizes.</div>
+    <span class="quick-link-arrow">Learn More →</span>
+  </a>
+  <a href="play-money.html" class="quick-link-card reveal">
+    <div class="quick-link-icon">💰</div>
+    <div class="quick-link-title">Play Money Rewards</div>
+    <div class="quick-link-desc">Redeem your collectible Boyer Play Money cards for free candy and exclusive rewards.</div>
+    <span class="quick-link-arrow">Redeem Now →</span>
+  </a>
+</div>
+
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand-name">Boyer <span>Candy</span></div>
+      <div class="footer-tagline">"Simply Delicious Since 1936" — handcrafted in Altoona, Pennsylvania.</div>
+      <div class="footer-address">Boyer Candy Company · Altoona, Pennsylvania</div>
+    </div>
+    <div>
+      <div class="footer-col-title">Shop</div>
+      <ul class="footer-links">
+        <li><a href="shop.html">All Products</a></li>
+        <li><a href="fundraising.html">Fundraising</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Company</div>
+      <ul class="footer-links">
+        <li><a href="our-story.html">Our Story</a></li>
+        <li><a href="play-money.html">Play Money Rewards</a></li>
+        <li><a href="contact.html">Contact Us</a></li>
+        <li><a href="shipping.html">Shipping Policy</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Help</div>
+      <ul class="footer-links">
+        <li><a href="contact.html">Customer Service</a></li>
+        <li><a href="shipping.html">Order Tracking</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-legal">© 2026 Boyer Candy Company. All rights reserved.</div>
+    <div class="footer-pay">
+      <span class="pay-badge">Visa</span><span class="pay-badge">Mastercard</span>
+      <span class="pay-badge">Amex</span><span class="pay-badge">Apple Pay</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  function handleContact(e) {
+    e.preventDefault();
+    document.getElementById('formWrap').style.display = 'none';
+    document.getElementById('formSuccess').style.display = 'block';
+  }
+</script>
+</body>
+</html>
