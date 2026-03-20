@@ -5,6 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Boyer Candy — Handcrafted in Altoona, PA Since 1936</title>
   <meta name="description" content="Boyer Candy Company makes America's original Mallo Cup, Clark Bar, and more. Handcrafted in Altoona, PA since 1936. Shop cups, bags, and merch.">
+  <meta property="og:title" content="Boyer Candy — Handcrafted in Altoona, PA Since 1936 | Boyer Candy">
+  <meta property="og:description" content="Boyer Candy Company makes America's original Mallo Cup, Clark Bar, and more. Handcrafted in Altoona, PA since 1936. Shop cups, bags, and merch.">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍫</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
   <link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Josefin+Slab:ital,wght@0,300;0,400;0,600;0,700;1,400;1,700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&family=Noto+Serif:ital,wght@0,400;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
     /* ── Reset & Base ── */
@@ -689,8 +696,9 @@
 
       <!-- The video — frame controlled by scroll position, not autoplay -->
       <div class="reveal-subject-wrap">
-        <video class="reveal-subject" muted playsinline preload="auto" disablepictureinpicture
-               poster="https://www.boyercandies.com/cdn/shop/files/12105highresbox.jpg?v=1&width=533">
+        <video class="reveal-subject" muted playsinline preload="none" disablepictureinpicture
+               poster="https://www.boyercandies.com/cdn/shop/files/12105highresbox.jpg?v=1&width=533"
+               id="hero-video">
           <source src="hero-video-seek.mp4" type="video/mp4">
         </video>
       </div>
@@ -853,10 +861,35 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 
   <script>
-    // ─── Immediately stop the video from playing on its own ─────────────────
-    const video = document.querySelector('.reveal-subject');
-    video.pause();
-    video.currentTime = 0;
+    // ─── Deferred video loading: start only after above-fold content renders ─
+    const video = document.getElementById('hero-video');
+
+    // Error fallback: if video fails to load, show poster image via CSS
+    video.addEventListener('error', () => {
+      video.style.display = 'none';
+      const wrap = video.closest('.reveal-subject-wrap');
+      if (wrap) {
+        wrap.style.backgroundImage = 'url("' + video.getAttribute('poster') + '")';
+        wrap.style.backgroundSize = 'cover';
+        wrap.style.backgroundPosition = 'center';
+      }
+    });
+
+    function loadVideo() {
+      if (video.preload === 'none') {
+        video.preload = 'auto';
+        video.load();
+      }
+    }
+
+    // Defer video loading until the browser is idle / above-fold has rendered
+    document.addEventListener('DOMContentLoaded', () => {
+      if ('requestIdleCallback' in window) {
+        requestIdleCallback(loadVideo, { timeout: 2000 });
+      } else {
+        setTimeout(loadVideo, 200);
+      }
+    });
 
     // ─── Reduced-motion guard ────────────────────────────────────────────────
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
