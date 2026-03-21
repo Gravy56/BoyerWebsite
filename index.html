@@ -653,6 +653,89 @@
       margin: 0 auto;
     }
 
+    /* ── Mallo Cup Preloader ── */
+    .mallo-preloader {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: #271310;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1.8rem;
+      /* starts covering full screen */
+      clip-path: circle(200vmax at 50% 50%);
+      transition: clip-path 1.1s cubic-bezier(0.77, 0, 0.175, 1);
+    }
+    .mallo-preloader.exit {
+      /* collapses to center point — page "expands outward" from beneath */
+      clip-path: circle(0vmax at 50% 50%);
+    }
+
+    .preloader-wheel {
+      position: relative;
+      width: 160px;
+      height: 160px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    /* Spinning outer ring — gold with gap, like a loading spinner */
+    .preloader-ring-outer {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      border: 3px solid rgba(201,146,42,0.25);
+      border-top-color: #C9922A;
+      border-right-color: #C9922A;
+      animation: malloCupSpin 1.4s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite;
+    }
+    /* Counter-spinning inner ring */
+    .preloader-ring-inner {
+      position: absolute;
+      inset: 14px;
+      border-radius: 50%;
+      border: 2px solid rgba(232,184,75,0.15);
+      border-bottom-color: #E8B84B;
+      animation: malloCupSpin 2.2s linear infinite reverse;
+    }
+    /* Mallo Cup image — circular crop in the center */
+    .preloader-cup-img {
+      width: 108px;
+      height: 108px;
+      border-radius: 50%;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+      border: 3px solid rgba(201,146,42,0.4);
+    }
+    @keyframes malloCupSpin {
+      to { transform: rotate(360deg); }
+    }
+
+    .preloader-label {
+      font-family: 'Alfa Slab One', serif;
+      font-size: 1.1rem;
+      color: rgba(245,239,224,0.6);
+      letter-spacing: 0.08em;
+      text-align: center;
+    }
+    .preloader-label span { color: #C9922A; }
+
+    /* Scroll hint on preloader */
+    .preloader-scroll-hint {
+      position: absolute;
+      bottom: 2.5rem;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(245,239,224,0.3);
+      animation: hintFade 0.8s ease 1s forwards;
+      opacity: 0;
+    }
+
     /* ── Section Scroll Reveal ── */
     .reveal {
       opacity: 0;
@@ -685,6 +768,19 @@
   </style>
 </head>
 <body>
+
+  <!-- Mallo Cup Preloader -->
+  <div class="mallo-preloader" id="preloader" aria-hidden="true">
+    <div class="preloader-wheel">
+      <div class="preloader-ring-outer"></div>
+      <div class="preloader-ring-inner"></div>
+      <img class="preloader-cup-img"
+           src="https://www.boyercandies.com/cdn/shop/files/12109_Mega_Mallo.jpg?v=1&width=533"
+           alt="Mallo Cup">
+    </div>
+    <div class="preloader-label">Boyer <span>Candy</span></div>
+    <div class="preloader-scroll-hint">Scroll to enter</div>
+  </div>
 
   <!-- Announcement Bar -->
   <div class="announcement">Free shipping on orders over $75 · Handcrafted in Altoona, PA since 1936</div>
@@ -831,10 +927,13 @@
 
   <!-- Play Money Band -->
   <section class="play-money-band">
-    <span class="section-eyebrow reveal">Boyer Rewards</span>
-    <h2 class="section-title reveal">Earn Free Candy.<br>It's That Simple.</h2>
-    <p class="section-body reveal">Every Boyer product comes with a Play Money card inside. Collect them, redeem them, get free candy. It's the most fun loyalty program in the business — and it's been around almost as long as we have.</p>
-    <a href="play-money.html" class="btn-white reveal">Learn About Play Money</a>
+    <span class="section-eyebrow reveal">Boyer Play Money Rewards</span>
+    <h2 class="section-title reveal">Collect Points.<br>Get Free Stuff.</h2>
+    <p class="section-body reveal">Every Boyer product comes with a Play Money card inside. Save them up — 400 points gets you a magnet, 1,000 gets you a box of candy, 1,500 gets you a mug. Mail in your cards and you'll get the real thing back.</p>
+    <div class="reveal" style="display:flex; gap:1rem; justify-content:center; flex-wrap:wrap; margin-top:0.5rem;">
+      <a href="play-money.html" class="btn-white">See All Rewards</a>
+      <a href="play-money.html" class="btn-ghost" style="border-color:rgba(255,255,255,0.4);">How to Redeem</a>
+    </div>
   </section>
 
   <!-- Footer -->
@@ -883,6 +982,22 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 
   <script>
+    // ─── Mallo Cup Preloader ─────────────────────────────────────────────────
+    const preloader = document.getElementById('preloader');
+    let preloaderGone = false;
+
+    function dismissPreloader() {
+      if (preloaderGone) return;
+      preloaderGone = true;
+      preloader.classList.add('exit');
+      preloader.addEventListener('transitionend', () => preloader.remove(), { once: true });
+    }
+
+    // Dismiss on first scroll gesture (wheel or touch) — no body scroll lock needed
+    window.addEventListener('wheel',     dismissPreloader, { once: true, passive: true });
+    window.addEventListener('touchmove', dismissPreloader, { once: true, passive: true });
+    // Also auto-dismiss once videos are ready (handled in checkReady below)
+
     // ─── Pause both videos immediately — no autoplay ─────────────────────────
     const video   = document.querySelector('.reveal-subject');
     const drizzle = document.querySelector('.drizzle-video');
@@ -986,7 +1101,10 @@
       // Wait for BOTH videos to have metadata before building the timeline
       let mainReady = false, drizzleReady = false;
       function checkReady() {
-        if (mainReady && drizzleReady) initScrollReveal();
+        if (mainReady && drizzleReady) {
+          initScrollReveal();
+          dismissPreloader(); // auto-dismiss once videos are ready
+        }
       }
       if (video.readyState >= 1)   { mainReady   = true; } else { video.addEventListener('loadedmetadata',   () => { mainReady   = true; checkReady(); }, { once: true }); }
       if (drizzle.readyState >= 1) { drizzleReady = true; } else { drizzle.addEventListener('loadedmetadata', () => { drizzleReady = true; checkReady(); }, { once: true }); }
