@@ -187,8 +187,6 @@
       object-position: center;
       z-index: 3;
       opacity: 0;
-      /* multiply: white bg of drizzle becomes transparent, only chocolate shows */
-      mix-blend-mode: multiply;
       pointer-events: none;
       will-change: opacity;
     }
@@ -725,8 +723,8 @@
       <!-- Gold ring traces the clip-path edge during initial reveal -->
       <div class="reveal-ring"></div>
 
-      <!-- Chocolate drizzle overlay — autoplay loop, opacity scrubbed by GSAP -->
-      <video class="drizzle-video" autoplay muted loop playsinline preload="auto" disablepictureinpicture>
+      <!-- Chocolate drizzle overlay — frame position controlled by scroll, same as main video -->
+      <video class="drizzle-video" muted playsinline preload="auto" disablepictureinpicture>
         <source src="hero-drizzle.mp4" type="video/mp4">
       </video>
 
@@ -885,41 +883,49 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 
   <script>
-    // ─── Immediately stop the video from playing on its own ─────────────────
-    const video = document.querySelector('.reveal-subject');
-    video.pause();
-    video.currentTime = 0;
+    // ─── Pause both videos immediately — no autoplay ─────────────────────────
+    const video   = document.querySelector('.reveal-subject');
+    const drizzle = document.querySelector('.drizzle-video');
+    video.pause();   video.currentTime   = 0;
+    drizzle.pause(); drizzle.currentTime = 0;
 
     // ─── Reduced-motion guard ────────────────────────────────────────────────
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     if (reduceMotion) {
-      // Show everything immediately, skip to last video frame
-      video.addEventListener('loadedmetadata', () => { video.currentTime = video.duration; });
+      video.addEventListener('loadedmetadata',   () => { video.currentTime   = video.duration;   });
+      drizzle.addEventListener('loadedmetadata', () => { drizzle.currentTime = drizzle.duration; });
     } else {
 
-      // ─── GSAP ScrollTrigger: Video-Scrub + Clip-Path Reveal ────────────────
+      // ─── GSAP ScrollTrigger: dual video scrub + clip-path reveal ───────────
       gsap.registerPlugin(ScrollTrigger);
 
       function initScrollReveal() {
-        const duration = video.duration;
+        const mainDur    = video.duration;
+        const drizzleDur = drizzle.duration;
 
         const tl = gsap.timeline({
           scrollTrigger: {
             trigger: '#scroll-reveal',
             start: 'top top',
-            end: '+=300%',       // 3× viewport = plenty of scroll budget
+            end: '+=300%',
             pin: true,
-            scrub: true,         // no lag — frame-accurate tie to scroll position
+            scrub: true,
             anticipatePin: 1,
             onUpdate(self) {
-              // Scrub video frame directly to scroll progress
-              video.currentTime = self.progress * duration;
+              const p = self.progress;
+
+              // Main explosion: full video maps 0→1 progress
+              video.currentTime = p * mainDur;
+
+              // Drizzle: video maps progress 0.55→1.0 to 0→drizzleDuration
+              // Before 0.55 it stays at frame 0 (opacity is 0 anyway)
+              drizzle.currentTime = Math.max(0, (p - 0.55) / 0.45) * drizzleDur;
             }
           }
         });
 
-        // Phase 1 (0–45%): clip-path expands from cup oval to full bleed
+        // Phase 1 (0–45%): clip-path expands, explosion zooms out
         tl.to('.reveal-subject-wrap', {
           clipPath: 'ellipse(120% 130% at 50% 50%)',
           ease: 'power2.inOut',
@@ -942,11 +948,11 @@
           duration: 0.2
         }, 0.15);
 
-        // Phase 2 (55–100%): chocolate drizzle floods in, then text staggers
+        // Phase 2 (55–100%): drizzle covers screen, then text staggers in
         tl.to('.drizzle-video', {
           opacity: 1,
           ease: 'power2.inOut',
-          duration: 0.40
+          duration: 0.12   // quick fade-in as drizzle starts from frame 0
         }, 0.55)
         .to('.reveal-eyebrow', {
           opacity: 1, y: 0, ease: 'power2.out', duration: 0.14
@@ -961,7 +967,7 @@
           opacity: 1, y: 0, ease: 'power2.out', duration: 0.12
         }, 0.95);
 
-        // Fade out scroll hint the moment scrolling begins
+        // Fade scroll hint the moment scrolling begins
         ScrollTrigger.create({
           trigger: '#scroll-reveal',
           start: 'top top-=5',
@@ -969,12 +975,14 @@
         });
       }
 
-      // Wait for video metadata so duration is known before building the timeline
-      if (video.readyState >= 1) {
-        initScrollReveal();
-      } else {
-        video.addEventListener('loadedmetadata', initScrollReveal, { once: true });
+      // Wait for BOTH videos to have metadata before building the timeline
+      let mainReady = false, drizzleReady = false;
+      function checkReady() {
+        if (mainReady && drizzleReady) initScrollReveal();
       }
+      if (video.readyState >= 1)   { mainReady   = true; } else { video.addEventListener('loadedmetadata',   () => { mainReady   = true; checkReady(); }, { once: true }); }
+      if (drizzle.readyState >= 1) { drizzleReady = true; } else { drizzle.addEventListener('loadedmetadata', () => { drizzleReady = true; checkReady(); }, { once: true }); }
+      checkReady();
 
     }
 
