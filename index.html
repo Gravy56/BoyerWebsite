@@ -910,17 +910,25 @@
             start: 'top top',
             end: '+=300%',
             pin: true,
-            scrub: true,
-            anticipatePin: 1,
+            pinSpacing: true,
+            scrub: 0.5,          // small lag prevents snapping/glitch at boundaries
+            invalidateOnRefresh: true,
             onUpdate(self) {
-              const p = self.progress;
+              // Clamp to [0,1] — progress can briefly exceed 1 at the boundary
+              const p = Math.min(1, Math.max(0, self.progress));
 
-              // Main explosion: full video maps 0→1 progress
               video.currentTime = p * mainDur;
-
-              // Drizzle: video maps progress 0.55→1.0 to 0→drizzleDuration
-              // Before 0.55 it stays at frame 0 (opacity is 0 anyway)
               drizzle.currentTime = Math.max(0, (p - 0.55) / 0.45) * drizzleDur;
+            },
+            onLeave() {
+              // Snap both videos to their final frame when pin releases
+              video.currentTime   = mainDur;
+              drizzle.currentTime = drizzleDur;
+            },
+            onLeaveBack() {
+              // Snap both back to frame 0 when scrolling back to the very top
+              video.currentTime   = 0;
+              drizzle.currentTime = 0;
             }
           }
         });
